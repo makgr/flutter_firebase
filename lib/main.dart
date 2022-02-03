@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase/screens/home_screen.dart';
 import 'package:flutter_firebase/screens/register_screen.dart';
+import 'package:flutter_firebase/services/auth_service.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +38,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: RegisterScreen(),
+      home: StreamBuilder(
+        stream: authService().firebaseAuth.authStateChanges(),
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            return Homescreen();
+          }
+          return RegisterScreen();
+        }
+      ),
     );
   }
 }

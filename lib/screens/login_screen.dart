@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/screens/home_screen.dart';
 import 'package:flutter_firebase/services/auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -49,6 +50,7 @@ class LoginScreen extends StatelessWidget {
                      if(result != null){
                        print('success');
                        print(result.email);
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (contex)=>Homescreen()), (route) => false);
                      }
                     }
                   },
