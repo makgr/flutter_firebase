@@ -16,14 +16,7 @@ void main() async{
       authDomain: "flutterfirebase-d8b7e.firebaseapp.com"
       )
   );
-  //  WidgetsFlutterBinding.ensureInitialized();
-  //  await Firebase.initializeApp(
-  //     options: const FirebaseOptions(
-  //         apiKey: "AIzaSyAhE5iTdU1MflQxb4_M_uHiXJR9EC_mE_I",
-  //         authDomain: "nanochat.firebaseapp.com",
-  //         projectId: "firebase-nanochat",
-  //         messagingSenderId: '137230848633',
-  //         appId: '1:137230848633:web:89e9b54f881fa0b843baa8'));
+
   runApp(MyApp());
 }
 
