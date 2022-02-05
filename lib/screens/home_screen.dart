@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/services/auth_service.dart';
 
 class Homescreen extends StatelessWidget {
   const Homescreen({ Key? key }) : super(key: key);
@@ -10,7 +11,9 @@ class Homescreen extends StatelessWidget {
         title: Text('Home'),
         backgroundColor: Colors.deepPurple,
         actions: [
-          TextButton.icon(onPressed: (){}, icon: Icon(Icons.logout), label: Text('Sign Out')),
+          TextButton.icon(onPressed: ()async{
+            await authService().signOut();
+          }, icon: Icon(Icons.logout), label: Text('Sign Out')),
         ],
       ),
       

@@ -81,7 +81,9 @@ class RegisterScreen extends StatelessWidget {
                  SizedBox(height: 20,),
                  Divider(),
                  SizedBox(height: 20,),
-                 SignInButton(Buttons.Google, text: 'Continue with google', onPressed: (){}),
+                 SignInButton(Buttons.Google, text: 'Continue with google', onPressed: ()async{
+                   await authService().signInWithGoogle();
+                 }),
               
             ],
         ),
