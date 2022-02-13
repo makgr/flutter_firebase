@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           if(snapshot.hasData){
             return Homescreen();
           }
-          return RegisterScreen();
+          return Homescreen();
         }
       ),
     );
