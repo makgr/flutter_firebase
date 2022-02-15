@@ -27,12 +27,47 @@ class Homescreen extends StatelessWidget {
             ElevatedButton(
               onPressed: ()async{
                 CollectionReference users = firestore.collection('users');
-                await users.add({
-                  'name':'Khan'
+                // await users.add({
+                //   'name':'Khan'
+                // });
+                await users.doc('flutter123').set({
+                  'name': "google flutter"
                 });
               }, 
               child: Text('Add data to firestore'),
-              )
+              ),
+              SizedBox(height: 20,),
+              ElevatedButton(
+                onPressed: ()async{
+                CollectionReference users = firestore.collection('users');
+                // QuerySnapshot allResult = await users.get();
+                // allResult.docs.forEach((DocumentSnapshot result) { 
+                //   print(result.data());
+                // });
+                // DocumentSnapshot result = await users.doc('flutter123').get();
+                // print(result.data());
+                users.doc('flutter123').snapshots().listen((result) { 
+                  print(result.data());
+                });
+              },
+               child: Text('Read Data from firestore'),
+               ),
+               SizedBox(height: 20,),
+               ElevatedButton(
+                 onPressed: ()async{
+                   await firestore.collection('users').doc('flutter123').update({
+                     'name' : 'flutter firebase'
+                   });
+                 }, 
+                 child: Text('Update data'),
+                 ),
+                 SizedBox(height: 20,),
+               ElevatedButton(
+                 onPressed: ()async{
+                   await firestore.collection('users').doc('flutter123').delete();
+                 }, 
+                 child: Text('Delete data'),
+                 ),
           ],
         ),
       ),
