@@ -27,9 +27,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Firebase',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // primarySwatch: Colors.blue,
+        brightness: Brightness.dark,
       ),
       home: StreamBuilder(
         stream: authService().firebaseAuth.authStateChanges(),
