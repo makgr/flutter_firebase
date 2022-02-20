@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/screens/add_note.dart';
 import 'package:flutter_firebase/screens/edit_note.dart';
 import 'package:flutter_firebase/services/auth_service.dart';
 
 class Homescreen extends StatelessWidget {
-
+  User user;
+  Homescreen(this.user);
  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   @override
@@ -41,7 +43,7 @@ class Homescreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AdNoteScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AdNoteScreen(user)));
         },
         backgroundColor: Colors.orangeAccent,
       ),

@@ -35,11 +35,11 @@ class MyApp extends StatelessWidget {
       ),
       home: StreamBuilder(
         stream: authService().firebaseAuth.authStateChanges(),
-        builder: (context, snapshot) {
+        builder: (context,AsyncSnapshot snapshot) {
           if(snapshot.hasData){
-            return Homescreen();
+            return Homescreen(snapshot.data);
           }
-          return Homescreen();
+          return RegisterScreen();
         }
       ),
     );
