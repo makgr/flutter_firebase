@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_firebase/models/note.dart';
 import 'package:flutter_firebase/services/firestore_services.dart';
 
@@ -27,7 +28,25 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.delete,color: Colors.red)),
+          IconButton(onPressed: ()async{
+            await showDialog(
+              context: context,
+               builder: (BuildContext contex){
+                 return AlertDialog(
+                   title: Text('Confirm this'),
+                   content: Text('Are you sure to delete?'),
+                   actions: [
+                     TextButton(onPressed: ()async{
+                        await FirestoreService().deleteNote(widget.note.id);
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        }, child: Text('Yes')),
+                     TextButton(onPressed: (){Navigator.pop(context);}, child: Text('No')),
+                   ],
+                 );
+              }
+              );
+          }, icon: Icon(Icons.delete,color: Colors.red)),
         ],
       ),
       body: SingleChildScrollView(

@@ -28,4 +28,12 @@ class FirestoreService {
     }
   }
 
+  Future deleteNote(String docId)async{
+    try {
+      await firestore.collection('notes').doc(docId).delete();
+    } catch (e) {
+      print(e);
+    }
+  }
+
 }
