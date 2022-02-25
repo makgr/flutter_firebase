@@ -13,7 +13,19 @@ class FirestoreService {
         "userId" : userId 
       });
     } catch (e) {
-
+      print(e);
     }
   }
+
+  Future updateNote(String docId,String title, String description)async{
+    try {
+      await firestore.collection('notes').doc(docId).update({
+        "title": title,
+        "description": description,
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
 }

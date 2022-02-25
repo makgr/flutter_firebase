@@ -41,7 +41,7 @@ class Homescreen extends StatelessWidget {
                           title: Text(note.title.toString(),style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
                           subtitle: Text(note.description.toString(),overflow: TextOverflow.ellipsis,maxLines: 2,),
                           onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditNoteScreen()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>EditNoteScreen(note)));
                           },
                         ),
                       );
