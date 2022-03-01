@@ -6,6 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class UploadImageScreen extends StatefulWidget {
   const UploadImageScreen({ Key? key }) : super(key: key);
@@ -26,12 +28,12 @@ Future<void> uploadImage(String inputSource)async{
   }
   String fileName = pickedImage.name;
   File imageFile = File(pickedImage.path);
-
+  File compressFile = await compressImage(imageFile);
  try {
    setState(() {
      loading = true;
    });
-   await firebaseStorage.ref(fileName).putFile(imageFile);
+   await firebaseStorage.ref(fileName).putFile(compressFile);
    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Successfully uploaded.'),backgroundColor: Colors.green,));
  }on FirebaseAuthException catch (e) {
    print(e);
@@ -39,6 +41,30 @@ Future<void> uploadImage(String inputSource)async{
    print(error);
  }
 
+}
+
+Future<void> uploadMultipleImages()async{
+  final picker = ImagePicker();
+  final List<XFile>? pickedImages = await picker.pickMultiImage();
+  if(pickedImages == null){
+    return null;
+  }
+  setState(() {
+    loading = true;
+  });
+  await Future.forEach(pickedImages, (XFile image)async{
+    String fileName = image.name;
+    File imageFile = File(image.path);
+    try {
+      await firebaseStorage.ref(fileName).putFile(imageFile);
+    }on FirebaseException catch (e) {
+      print(e);
+    }
+  });
+  setState(() {
+    loading = false;
+  });
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('All Images uploaded successfully.'),backgroundColor: Colors.green,));
 }
 
 Future<List> loadImages()async{
@@ -60,6 +86,11 @@ Future deleteImage(String ref)async{
  setState(() {
    
  });
+}
+
+Future compressImage(File file)async{
+ File compressFile = await FlutterNativeImage.compressImage(file.path,quality: 50);
+ return compressFile;
 }
 
   @override
@@ -84,6 +115,12 @@ Future deleteImage(String ref)async{
                 }, icon: Icon(Icons.library_add), label: Text('Gallery')),
               ],
             ),
+            SizedBox(height: 30,),
+            ElevatedButton.icon(onPressed: (){
+              uploadMultipleImages();
+            }, 
+            icon: Icon(Icons.image),
+            label: Text('Multiple Images'),),
             SizedBox(height:50,),
             Expanded(
               child: FutureBuilder(
@@ -102,7 +139,11 @@ Future deleteImage(String ref)async{
                             child: Card(
                               child: Container(
                                 height: 200,
-                                child: Image.network(image['url']),
+                                child: CachedNetworkImage(
+                                  imageUrl: image['url'],
+                                  placeholder: (contex,url)=>Image.asset('images/placeholder-image.png'),
+                                 errorWidget: (contex,url,error)=>Icon(Icons.error),
+                                  ),
                               ),
                             ),
                             ),
