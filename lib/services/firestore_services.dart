@@ -4,11 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  Future insertNote(String title, String description,String userId) async{
+  Future insertNote(String title, String description,String image,String userId) async{
     try {
       await firestore.collection('notes').add({
         "title": title,
         "description": description,
+        "image": image,
         "date": DateTime.now(),
         "userId" : userId 
       });
